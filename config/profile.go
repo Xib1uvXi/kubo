@@ -387,6 +387,45 @@ Use this when you want normal networking but prefer manual control over all endp
 			return nil
 		},
 	},
+	"memstore": {
+		Description: `Configures the node to use the memory datastore.
+
+This datastore stores all data in memory and is completely volatile.
+All data will be lost when the node stops. This is useful for:
+
+* Testing and development environments
+* Temporary nodes that don't need to persist data
+* High-performance scenarios where persistence is not required
+* Nodes that only act as relays or gateways without local storage
+
+WARNING: All data will be lost when the node shuts down!
+
+NOTE: This profile may only be applied when first initializing node at IPFS_PATH
+      via 'ipfs init --profile memstore'
+`,
+
+		InitOnly: true,
+		Transform: func(c *Config) error {
+			c.Datastore.Spec = memSpec()
+			return nil
+		},
+	},
+	"memstore-measure": {
+		Description: `Configures the node to use the memory datastore with metrics tracking wrapper.
+Additional '*_datastore_*' metrics will be exposed on /debug/metrics/prometheus
+
+All data will be lost when the node shuts down!
+
+NOTE: This profile may only be applied when first initializing node at IPFS_PATH
+      via 'ipfs init --profile memstore-measure'
+`,
+
+		InitOnly: true,
+		Transform: func(c *Config) error {
+			c.Datastore.Spec = memSpecMeasure()
+			return nil
+		},
+	},
 }
 
 func getAvailablePort() (port int, err error) {

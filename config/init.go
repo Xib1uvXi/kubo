@@ -151,6 +151,22 @@ func pebbleSpecMeasure() map[string]interface{} {
 	}
 }
 
+func memSpec() map[string]interface{} {
+	return map[string]interface{}{
+		"type": "mem",
+	}
+}
+
+func memSpecMeasure() map[string]interface{} {
+	return map[string]interface{}{
+		"type":   "measure",
+		"prefix": "mem.datastore",
+		"child": map[string]interface{}{
+			"type": "mem",
+		},
+	}
+}
+
 func badgerSpec() map[string]interface{} {
 	return map[string]interface{}{
 		"type":       "badgerds",
